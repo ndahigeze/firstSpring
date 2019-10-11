@@ -34,16 +34,22 @@ public class CarController {
 
 
     @RequestMapping(path = "/delete/{id}",method = RequestMethod.DELETE,consumes = MediaType.APPLICATION_JSON_VALUE,produces =MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> delete(@PathVariable int id){
+    public ResponseEntity<Object> delete(@PathVariable("id") int id){
         Car c=carRepository.getOne(id);
         carRepository.delete(c);
         return new ResponseEntity<Object>("Done",HttpStatus.OK);
     }
-    
 
-    @RequestMapping(path = "/",method = RequestMethod.GET,produces =MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> findAll(@RequestBody Car car){
-        carRepository.save(car);
+
+    @RequestMapping(path = "",method = RequestMethod.GET,produces =MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> findAll(){
+
+        return new ResponseEntity<Object>(carRepository.findAll(),HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/{id}",method = RequestMethod.GET,produces =MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> findOne(@PathVariable("id") int id){
+       Car car=carRepository.getOne(id);
         return new ResponseEntity<Object>(car,HttpStatus.OK);
     }
 
